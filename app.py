@@ -199,7 +199,7 @@ def main():
             st.subheader("2.Choose template")
             df
             templates = ["Assurity", "Interconntinental Hotel", "Shangri-La Hotel (Mooncakes)", 
-                        "Herbalife (Mooncakes)", "Wholefish", "IHG 1608 to 2208"]
+                        "Herbalife (Mooncakes)", "Wholefish", "IHG 1008 to 1508"]
             selected_template = st.selectbox("Template", options=templates)
             if selected_template == "Assurity":
                 prepared_file = prepare_file_assurity(df)
