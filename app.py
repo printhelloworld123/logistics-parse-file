@@ -199,7 +199,7 @@ def main():
             st.subheader("2.Choose template")
             df
             templates = ["Assurity", "Interconntinental Hotel", "Shangri-La Hotel (Mooncakes)", 
-                        "Herbalife (Mooncakes)", "Wholefish"]
+                        "Herbalife (Mooncakes)", "Wholefish", "IHG 1608 to 2208"]
             selected_template = st.selectbox("Template", options=templates)
             if selected_template == "Assurity":
                 prepared_file = prepare_file_assurity(df)
@@ -211,6 +211,8 @@ def main():
                 prepared_file = prepare_file_herbalife(df)
             elif selected_template == "Wholefish":
                 prepared_file = prepare_file_wholefish(df)
+            elif selected_template == "IHG 1008 to 1508":
+                prepared_file = prepare_file_ihg_1008_to_1508(df)
             
 
             st.subheader("3. Download file")
