@@ -39,7 +39,7 @@ def main():
             st.write("2.1 Select the reference column for service time (Select NIL if this step should be skipped)")
             service_time = st.selectbox("Reference column for service time", options=option_cols_service_time)
             
-            file.duplicate_service_times(service_time)
+            file.duplicate_service_times_all(service_time)
 
             st.write("###")
             st.write("2.2 Select the columns from the file, corresponding to each of the stated column")
@@ -200,6 +200,7 @@ def main():
             df
             templates = ["Assurity", "Interconntinental Hotel", "Shangri-La Hotel (Mooncakes)", 
                         "Herbalife (Mooncakes)", "Wholefish", "IHG 1008 to 1508"]
+
             selected_template = st.selectbox("Template", options=templates)
             if selected_template == "Assurity":
                 prepared_file = prepare_file_assurity(df)
@@ -212,8 +213,7 @@ def main():
             elif selected_template == "Wholefish":
                 prepared_file = prepare_file_wholefish(df)
             elif selected_template == "IHG 1008 to 1508":
-                prepared_file = prepare_file_ihg_1008_to_1508(df)
-            
+                prepared_file = prepare_file_ihg_1008_to_1508(df)            
 
             st.subheader("3. Download file")
 
@@ -234,6 +234,6 @@ def main():
     except:
         pass
         
-
 if __name__ == "__main__":
     main()
+    
