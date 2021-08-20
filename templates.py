@@ -6,10 +6,25 @@ import regex as re
 import functions
 from functions import *
 
+def generate_template(df):
+    df.extract_unit_num_pickup()
+    df.extract_unit_num_dropoff()
+    df.extract_postal_code_from_pickup_address()
+    df.extract_postal_code_from_dropoff_address()
+    df.normalize_pickup_postal_code()
+    df.normalize_dropoff_postal_code()
+    df.convert_earliest_dropoff_time()
+    df.convert_latest_dropoff_time()
+    df.convert_earliest_pickup_time()
+    df.convert_latest_pickup_time()
+    df.convert_phone_nos_all()
+    return df.df_new
+
 def prepare_file_assurity(df):
-    assurity_file = File(df)
-    #xxx.duplicate_service_times("xxx")
-    assurity_file.rename_columns_general({
+    file = File(df)
+
+    #xxx.duplicate_service_times_all("xxx")
+    file.rename_columns_general({
                                             "ID" : "id",
                                             "Customer Name" : "name",
                                             "Dropoff Address" : "dropoff address",
@@ -29,8 +44,8 @@ def prepare_file_assurity(df):
                                             #"xxx" : "pickup service time",
                                             #"xxx" : "dropoff service time"
                                                                             })
-    assurity_file.remove_nil_rows()
-    assurity_file.set_row_values_general({
+    file.remove_nil_rows()
+    file.set_row_values_general({
                                             #"id" : "xxx",
                                             #"name" : "xxx",
                                             #"dropoff address" : "xxx",
@@ -49,24 +64,14 @@ def prepare_file_assurity(df):
                                             #"phone number" : "xxx",
                                             "pickup service time" : 0,
                                             "dropoff service time" : 480})
+    generate_template(file)
+    return file.df_new
 
-    assurity_file.extract_unit_num_pickup()
-    assurity_file.extract_unit_num_dropoff()
-    assurity_file.extract_postal_code_from_pickup_address()
-    assurity_file.extract_postal_code_from_dropoff_address()
-    assurity_file.normalize_pickup_postal_code()
-    assurity_file.normalize_dropoff_postal_code()
-    assurity_file.convert_earliest_dropoff_time()
-    assurity_file.convert_latest_dropoff_time()
-    assurity_file.convert_earliest_pickup_time()
-    assurity_file.convert_latest_pickup_time()
-    assurity_file.convert_phone_nos_all()
-    return assurity_file.df_new
 
 def prepare_file_interconntinental_hotel(df):
-    interconntinental_hotel_file = File(df)
-    #xxx.duplicate_service_times("xxx")
-    interconntinental_hotel_file.rename_columns_general({
+    file = File(df)
+    #xxx.duplicate_service_times_all("xxx")
+    file.rename_columns_general({
                                                             #"xxx" : "id",
                                                             "Customer Name" : "name",
                                                             "Dropoff Address" : "dropoff address",
@@ -86,8 +91,8 @@ def prepare_file_interconntinental_hotel(df):
                                                             #"xxx" : "pickup service time",
                                                             #"xxx" : "dropoff service time"
                                                                                             })
-    interconntinental_hotel_file.remove_nil_rows()
-    interconntinental_hotel_file.set_row_values_general({
+    file.remove_nil_rows()
+    file.set_row_values_general({
                                                             #"id" : "xxx",
                                                             #"name" : "xxx",
                                                             #"dropoff address" : "xxx",
@@ -106,23 +111,13 @@ def prepare_file_interconntinental_hotel(df):
                                                             #"phone number" : "xxx",
                                                             "pickup service time" : 0,
                                                             "dropoff service time" : 480})
-    interconntinental_hotel_file.extract_unit_num_pickup()
-    interconntinental_hotel_file.extract_unit_num_dropoff()
-    interconntinental_hotel_file.extract_postal_code_from_pickup_address()
-    interconntinental_hotel_file.extract_postal_code_from_dropoff_address()
-    interconntinental_hotel_file.normalize_pickup_postal_code()
-    interconntinental_hotel_file.normalize_dropoff_postal_code()
-    interconntinental_hotel_file.convert_earliest_dropoff_time()
-    interconntinental_hotel_file.convert_latest_dropoff_time()
-    interconntinental_hotel_file.convert_earliest_pickup_time()
-    interconntinental_hotel_file.convert_latest_pickup_time()
-    interconntinental_hotel_file.convert_phone_nos_all()
-    return interconntinental_hotel_file.df_new
+    generate_template(file)
+    return file.df_new
 
 def prepare_file_shangrila_hotel(df):
-    shangrila_hotel_file = File(df)
-    shangrila_hotel_file.duplicate_service_times("Delivery Timings")
-    shangrila_hotel_file.rename_columns_general({
+    file = File(df)
+    file.duplicate_service_times_all("Delivery Timings")
+    file.rename_columns_general({
                                                     #"xxx" : "id",
                                                     "Name" : "name",
                                                     "Address" : "dropoff address",
@@ -142,9 +137,9 @@ def prepare_file_shangrila_hotel(df):
                                                     #"xxx" : "pickup service time",
                                                     #"xxx" : "dropoff service time"
                                                                                     })
-    shangrila_hotel_file.remove_nil_rows()
+    file.remove_nil_rows()
     
-    shangrila_hotel_file.set_row_values_general({
+    file.set_row_values_general({
                                                     #"id" : "xxx",
                                                     #"name" : "xxx",
                                                     #"dropoff address" : "xxx",
@@ -163,27 +158,13 @@ def prepare_file_shangrila_hotel(df):
                                                     #"phone number" : "xxx",
                                                     "pickup service time" : 0,
                                                     "dropoff service time" : 480})
-    shangrila_hotel_file.extract_unit_num_pickup()
-    shangrila_hotel_file.extract_unit_num_dropoff()
-    shangrila_hotel_file.extract_postal_code_from_pickup_address()
-    shangrila_hotel_file.extract_postal_code_from_dropoff_address()
-    shangrila_hotel_file.normalize_pickup_postal_code()
-    shangrila_hotel_file.normalize_dropoff_postal_code()
-    shangrila_hotel_file.extract_earliest_dropoff_time()
-    shangrila_hotel_file.extract_latest_dropoff_time()
-    shangrila_hotel_file.extract_earliest_pickup_time()
-    shangrila_hotel_file.extract_latest_pickup_time()
-    shangrila_hotel_file.convert_earliest_dropoff_time()
-    shangrila_hotel_file.convert_latest_dropoff_time()
-    shangrila_hotel_file.convert_earliest_pickup_time()
-    shangrila_hotel_file.convert_latest_pickup_time()
-    shangrila_hotel_file.convert_phone_nos_all()
-    return shangrila_hotel_file.df_new
+    generate_template(file)
+    return file.df_new
 
 def prepare_file_herbalife(df):
-    herbalife = File(df)
-    #xxx.duplicate_service_times("xxx")
-    herbalife.rename_columns_general({
+    file = File(df)
+    #xxx.duplicate_service_times_all("xxx")
+    file.rename_columns_general({
                                         #"xxx" : "id",
                                         "Name" : "name",
                                         "Address" : "dropoff address",
@@ -203,8 +184,8 @@ def prepare_file_herbalife(df):
                                         #"xxx" : "pickup service time",
                                         #"xxx" : "dropoff service time"
                                                                         })
-    herbalife.remove_nil_rows()
-    herbalife.set_row_values_general({
+    file.remove_nil_rows()
+    file.set_row_values_general({
                                         #"id" : "xxx",
                                         #"name" : "xxx",
                                         #"dropoff address" : "xxx",
@@ -223,23 +204,13 @@ def prepare_file_herbalife(df):
                                         #"phone number" : "xxx",
                                         "pickup service time" : 0,
                                         "dropoff service time" : 480})
-    herbalife.extract_unit_num_pickup()
-    herbalife.extract_unit_num_dropoff()
-    herbalife.extract_postal_code_from_pickup_address()
-    herbalife.extract_postal_code_from_dropoff_address()
-    herbalife.normalize_pickup_postal_code()
-    herbalife.normalize_dropoff_postal_code()
-    herbalife.convert_earliest_dropoff_time()
-    herbalife.convert_latest_dropoff_time()
-    herbalife.convert_earliest_pickup_time()
-    herbalife.convert_latest_pickup_time()
-    herbalife.convert_phone_nos_all()
-    return herbalife.df_new
+    generate_template(file)
+    return file.df_new
 
 def prepare_file_wholefish(df):
-    wholefish = File(df)
-    #xxx.duplicate_service_times("xxx")
-    wholefish.rename_columns_general({
+    file = File(df)
+    #xxx.duplicate_service_times_all("xxx")
+    file.rename_columns_general({
                                         #"xxx" : "id",
                                         "Recipient Name" : "name",
                                         "Delivery Address" : "dropoff address",
@@ -259,8 +230,8 @@ def prepare_file_wholefish(df):
                                         #"xxx" : "pickup service time",
                                         #"xxx" : "dropoff service time"
                                                                         })
-    wholefish.remove_nil_rows()
-    wholefish.set_row_values_general({
+    file.remove_nil_rows()
+    file.set_row_values_general({
                                         #"id" : "xxx",
                                         #"name" : "xxx",
                                         #"dropoff address" : "xxx",
@@ -279,23 +250,24 @@ def prepare_file_wholefish(df):
                                         #"phone number" : "xxx",
                                         "pickup service time" : 0,
                                         "dropoff service time" : 480})
-    wholefish.extract_unit_num_pickup()
-    wholefish.extract_unit_num_dropoff()
-    wholefish.extract_postal_code_from_pickup_address()
-    wholefish.extract_postal_code_from_dropoff_address()
-    wholefish.normalize_pickup_postal_code()
-    wholefish.normalize_dropoff_postal_code()
-    wholefish.convert_earliest_dropoff_time()
-    wholefish.convert_latest_dropoff_time()
-    wholefish.convert_earliest_pickup_time()
-    wholefish.convert_latest_pickup_time()
-    wholefish.convert_phone_nos_all()
-    return wholefish.df_new
+    file.extract_unit_num_pickup()
+    file.extract_unit_num_dropoff()
+    file.extract_postal_code_from_pickup_address()
+    file.extract_postal_code_from_dropoff_address()
+    file.normalize_pickup_postal_code()
+    file.normalize_dropoff_postal_code()
+    file.convert_earliest_dropoff_time()
+    file.convert_latest_dropoff_time()
+    file.convert_earliest_pickup_time()
+    file.convert_latest_pickup_time()
+    file.convert_phone_nos_all()
+    generate_template(file)
+    return file.df_new
 
 def prepare_file_ihg_1008_to_1508(df):
-    ihg_1008_to_1508 = File(df)
-    #xxx.duplicate_service_times("xxx")
-    ihg_1008_to_1508.rename_columns_general({
+    file = File(df)
+    #xxx.duplicate_service_times_all("xxx")
+    file.rename_columns_general({
                                         #"xxx" : "id",
                                         "Customer Name" : "name",
                                         "Dropoff Address" : "dropoff address",
@@ -315,8 +287,8 @@ def prepare_file_ihg_1008_to_1508(df):
                                         #"xxx" : "pickup service time",
                                         #"xxx" : "dropoff service time"
                                                                         })
-    ihg_1008_to_1508.remove_nil_rows()
-    ihg_1008_to_1508.set_row_values_general({
+    file.remove_nil_rows()
+    file.set_row_values_general({
                                         #"id" : "xxx",
                                         #"name" : "xxx",
                                         #"dropoff address" : "xxx",
@@ -335,15 +307,5 @@ def prepare_file_ihg_1008_to_1508(df):
                                         #"phone number" : "xxx",
                                         "pickup service time" : 0,
                                         "dropoff service time" : 480})
-    ihg_1008_to_1508.extract_unit_num_pickup()
-    ihg_1008_to_1508.extract_unit_num_dropoff()
-    ihg_1008_to_1508.extract_postal_code_from_pickup_address()
-    ihg_1008_to_1508.extract_postal_code_from_dropoff_address()
-    ihg_1008_to_1508.normalize_pickup_postal_code()
-    ihg_1008_to_1508.normalize_dropoff_postal_code()
-    ihg_1008_to_1508.convert_earliest_dropoff_time()
-    ihg_1008_to_1508.convert_latest_dropoff_time()
-    ihg_1008_to_1508.convert_earliest_pickup_time()
-    ihg_1008_to_1508.convert_latest_pickup_time()
-    ihg_1008_to_1508.convert_phone_nos_all()
-    return ihg_1008_to_1508.df_new
+    generate_template(file)
+    return file.df_new
