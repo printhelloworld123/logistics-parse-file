@@ -40,6 +40,15 @@ def convert_time(time):
     except:
         return time
 
+def duplicate_service_times(service_time_col_name):
+    try:
+        if service_time_col_name != "NIL":
+            return service_time_col_name
+        else:
+            return ""
+    except:
+        return service_time_col_name
+
 def extract_dropoff_time(time):
     try:
         if "to" in time:
@@ -228,17 +237,14 @@ class File:
             print(f"normalize_dropoff_postal_code:{e}")                                        
         return self.df_new
     
-    def duplicate_service_times(self, service_time_col_name):
+    def duplicate_service_times_all(self, service_time_col_name):
         try:
-            if service_time_col_name != "NIL":
-                self.df_new["earliest dropoff time"] = self.df_new[service_time_col_name]
-                self.df_new["latest dropoff time"] = self.df_new[service_time_col_name]
-                self.df_new["earliest pickup time"] = self.df_new[service_time_col_name]
-                self.df_new["latest pickup time"] = self.df_new[service_time_col_name]
-            else:
-                pass
+            self.df_new["earliest dropoff time"] = duplicate_service_times(service_time_col_name)
+            self.df_new["latest dropoff time"] = duplicate_service_times(service_time_col_name)
+            self.df_new["earliest pickup time"] = duplicate_service_times(service_time_col_name)
+            self.df_new["latest pickup time"] = duplicate_service_times(service_time_col_name)
         except Exception as e:
-            print(f"duplicate_service_times:{e}") 
+            print(f"duplicate_service_time:{e}") 
         return self.df_new
     
     def convert_earliest_dropoff_time(self):
@@ -312,4 +318,3 @@ class File:
         except Exception as e:
             print(f"convert_phone_nos_all:{e}")
         return self.df_new
-
