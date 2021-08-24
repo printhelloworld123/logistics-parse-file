@@ -244,7 +244,7 @@ class File:
             self.df_new["earliest pickup time"] = duplicate_service_times(service_time_col_name)
             self.df_new["latest pickup time"] = duplicate_service_times(service_time_col_name)
         except Exception as e:
-            print(f"duplicate_service_time:{e}") 
+            print(f"duplicate_service_times_all:{e}") 
         return self.df_new
     
     def convert_earliest_dropoff_time(self):
@@ -318,3 +318,4 @@ class File:
         except Exception as e:
             print(f"convert_phone_nos_all:{e}")
         return self.df_new
+
