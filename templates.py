@@ -309,4 +309,3 @@ def prepare_file_ihg_1008_to_1508(df):
                                         "dropoff service time" : 480})
     generate_template(file)
     return file.df_new
-
