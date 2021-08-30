@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import regex as re
 
+# Function to standardize the pickup and dropoff time columns to a fixed format accepted by RG #
 def convert_time(time):
     new_time = str(time)
     new_time = new_time.replace(" ","")
@@ -40,6 +41,7 @@ def convert_time(time):
     except:
         return time
 
+# Function to create copies of the service time data #
 def duplicate_service_times(service_time_col_name):
     try:
         if service_time_col_name != "NIL":
@@ -49,6 +51,7 @@ def duplicate_service_times(service_time_col_name):
     except:
         return service_time_col_name
 
+# Function to extract the dropoff time from a given time range #
 def extract_dropoff_time(time):
     try:
         if "to" in time:
@@ -66,6 +69,7 @@ def extract_dropoff_time(time):
         return time
 
 
+# Function to extract the pickup time from a given time range #
 def extract_pickup_time(time):
     try:
         if "to" in time:
@@ -82,7 +86,7 @@ def extract_pickup_time(time):
     except:
         return time
 
-
+# Function to extract the unit number from a given address string #
 def extract_unit_num(address):
     try:
         unit_num = address.replace(" ", ",").split(",")
@@ -105,6 +109,7 @@ def extract_unit_num(address):
     except:
         return address
 
+# Function to extract the postal code from a given address string #
 def extract_postal_code_from_address(address, postal_code):
     try:
         code = re.findall(r'(\d{6})', address)
@@ -117,6 +122,7 @@ def extract_postal_code_from_address(address, postal_code):
     except:
         return postal_code
 
+# Function to standardize the postal code to a fixed format accepted by RG (ie 6 digit string) #
 def normalize_postal_code(code):
     try:
         new_code = str(int(float(code)))
@@ -129,8 +135,8 @@ def normalize_postal_code(code):
         new_code = re.sub(r'[^\w\s]', "", code)
         return new_code
 
-
-def convert_phone_nos(nos):
+# Function to standardize the phone number to a fixed format accepted by RG (+65 followed by 8 digits)
+def standardize_phone_nos(nos):
     try:
         if str(nos) == "nan":
             new_nos = nos
@@ -158,6 +164,7 @@ class File:
         self.df = df
         self.df_new = self.df.copy()
         
+    # Method to rename the columns in client's file to column names accepted by RG
     def rename_columns_general(self, d_columns_to_rename):
         try:
             self.df_new = self.df_new.rename(columns=d_columns_to_rename)
@@ -171,6 +178,7 @@ class File:
             print(f"rename_columns_general:{e}")
         return self.df_new
     
+    # Method to assign a fixed value for all rows in a specified column #
     def set_row_values_general(self, d_row_values):
         try:
             for key, value in list(d_row_values.items()):
@@ -179,6 +187,7 @@ class File:
             print(f"set_row_values_general:{e}")
         return self.df_new
     
+    # Method to remove rows with no data input #
     def remove_nil_rows(self):
         try:
             self.df_new = self.df_new.dropna(subset=["name"])
@@ -186,6 +195,7 @@ class File:
             print(f"remove_nil_rows:{e}")
         return self.df_new
     
+    # Method to extract the unit number from the pickup address #
     def extract_unit_num_pickup(self):
         try:
             self.df_new["pickup unit number"] = list(map(lambda x: extract_unit_num(x), 
@@ -194,6 +204,7 @@ class File:
             print(f"extract_unit_num_pickup:{e}")
         return self.df_new
 
+    # Method to extract the unit number from the dropoff address #
     def extract_unit_num_dropoff(self):
         try:
             self.df_new["dropoff unit number"] = list(map(lambda x: extract_unit_num(x), 
@@ -202,7 +213,7 @@ class File:
             print(f"extract_unit_num_dropoff:{e}")
         return self.df_new
                                     
-
+    # Method to extract the postal code from the pickup address #
     def extract_postal_code_from_pickup_address(self):
         try:
             self.df_new["pickup postal code"] = list(map(lambda x,y: extract_postal_code_from_address(x,y),
@@ -212,6 +223,7 @@ class File:
             print(f"extract_postal_code_from_pickup_address:{e}")
         return self.df_new
     
+    # Method to extract the postal code from the dropoff address #
     def extract_postal_code_from_dropoff_address(self):
         try:
             self.df_new["dropoff postal code"] = list(map(lambda x, y:extract_postal_code_from_address(x, y), 
@@ -221,6 +233,7 @@ class File:
             print(f"extract_postal_code_from_dropoff_address:{e}")
         return self.df_new
     
+    # Method to standardize the pickup postal code to a format accepted by RG #
     def normalize_pickup_postal_code(self):
         try:
             self.df_new["pickup postal code"] = list(map(lambda x: normalize_postal_code(x), 
@@ -229,6 +242,7 @@ class File:
             print(f"normalize_pickup_postal_code:{e}")                                          
         return self.df_new
     
+    # Method to standardize the dropoff postal code to a format accepted by RG #
     def normalize_dropoff_postal_code(self):
         try:
             self.df_new["dropoff postal code"] = list(map(lambda x: normalize_postal_code(x), 
@@ -237,6 +251,8 @@ class File:
             print(f"normalize_dropoff_postal_code:{e}")                                        
         return self.df_new
     
+    # Method to create new columns (earliest dropoff time, latest dropoff time, 
+    # earliest pickup time, latest pickup time) with data duplicated from the service time range column # 
     def duplicate_service_times_all(self, service_time_col_name):
         try:
             self.df_new["earliest dropoff time"] = duplicate_service_times(service_time_col_name)
@@ -247,6 +263,7 @@ class File:
             print(f"duplicate_service_times_all:{e}") 
         return self.df_new
     
+    # Method to standardize the earliest dropoff time to a format accepted by RG #
     def convert_earliest_dropoff_time(self):
         try:
             self.df_new["earliest dropoff time"] = list(map(lambda x: convert_time(x), 
@@ -255,6 +272,7 @@ class File:
             print(f"convert_earliest_dropoff_time:{e}")
         return self.df_new
     
+    # Method to standardize the latest dropoff time to a format accepted by RG #
     def convert_latest_dropoff_time(self):
         try:
             self.df_new["latest dropoff time"] = list(map(lambda x: convert_time(x), 
@@ -263,6 +281,7 @@ class File:
             print(f"convert_latest_dropoff_time:{e}")
         return self.df_new
     
+    # Method to standardize the earliest pickup time to a format accepted by RG #
     def convert_earliest_pickup_time(self):
         try:
             self.df_new["earliest pickup time"] = list(map(lambda x: convert_time(x),
@@ -271,6 +290,7 @@ class File:
             print(f"convert_earliest_pickup_time:{e}")
         return self.df_new
     
+    # Method to standardize the latest pickup time to a format accepted by RG #
     def convert_latest_pickup_time(self):
         try:
             self.df_new["latest pickup time"] = list(map(lambda x: convert_time(x),
@@ -279,6 +299,7 @@ class File:
             print(f"convert_latest_pickup_time:{e}")
         return self.df_new
     
+    # Method to extract the earliest dropoff time from a given time range #
     def extract_earliest_dropoff_time(self):
         try:
             self.df_new["earliest dropoff time"] = list(map(lambda x: extract_dropoff_time(x),
@@ -287,6 +308,7 @@ class File:
             print(f"extract_earliest_dropoff_time:{e}")
         return self.df_new
     
+    # Method to extract the latest dropoff time from a given time range #
     def extract_latest_dropoff_time(self):
         try:
             self.df_new["latest dropoff time"] = list(map(lambda x: extract_dropoff_time(x),
@@ -295,6 +317,7 @@ class File:
             print(f"extract_latest_dropoff_time:{e}")
         return self.df_new
 
+    # Method to extract the earliest pickup time from a given time range #
     def extract_earliest_pickup_time(self):
         try:
             self.df_new["earliest pickup time"] = list(map(lambda x: extract_pickup_time(x),
@@ -303,6 +326,7 @@ class File:
             print(f"extract_earliest_pickup_time:{e}")
         return self.df_new
     
+    # Method to extract the latest pickup time from a given time range #
     def extract_latest_pickup_time(self):
         try:
             self.df_new["latest pickup time"] = list(map(lambda x: extract_pickup_time(x),
@@ -311,9 +335,10 @@ class File:
             print(f"extract_latest_pickup_time:{e}")
         return self.df_new
 
+    # Method to standardize the phone numbers to a formated accepted by RG#
     def convert_phone_nos_all(self):
         try:
-            self.df_new["phone number"] = list(map(lambda x: convert_phone_nos(x),
+            self.df_new["phone number"] = list(map(lambda x: standardize_phone_nos(x),
                                                            list(self.df_new["phone number"])))
         except Exception as e:
             print(f"convert_phone_nos_all:{e}")
