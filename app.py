@@ -17,11 +17,14 @@ from templates import *
 
 def main():
     try:
+
+        # Configure the sidebars#
         sidebar = ["Prepare file from scratch", "Use existing template"]
         choice = st.sidebar.selectbox("Select option", sidebar)
 
         if choice == "Prepare file from scratch":
-
+            
+            # Page that allows users to configure the parameters for editng the field values #
             st.title("Prepare file from scratch")
 
 
@@ -44,7 +47,8 @@ def main():
             st.write("###")
             st.write("2.2 Select the columns from the file, corresponding to each of the stated column")
 
-            r1c1, r1c2, r1c3 = st.beta_columns([2,2,2])
+            ## Create the visual structure of the options for user to configure their column mappings ## 
+            r1c1, r1c2, r1c3 = st.beta_columns([2,2,2]) 
             r2c1, r2c2, r2c3 = st.beta_columns([2,2,2])
             r3c1, r3c2, r3c3 = st.beta_columns([2,2,2])
             r4c1, r4c2, r4c3 = st.beta_columns([2,2,2])
@@ -105,6 +109,8 @@ def main():
             st.write("###")
             st.write("3.1 Configure the values for each column if necessary")
 
+            # Create the visual structure of the options for user to configure a fixed value #
+            # for all rows in their specified column #
             r1c1_val, r1c2_val, r1c3_val = st.beta_columns([2,2,2])
             r2c1_val, r2c2_val, r2c3_val = st.beta_columns([2,2,2])
             r3c1_val, r3c2_val, r3c3_val = st.beta_columns([2,2,2])
@@ -153,6 +159,7 @@ def main():
             cols_to_input_val = {key:value for key, value in list(filter(lambda x: 
                                                                         len(x[1]) != 0, list(selected_cols_val.items())))}
             
+            # Apply the relevant functions to clean client's file into a format that can be accepted by RG #
             file.set_row_values_general(cols_to_input_val)
             file.extract_unit_num_pickup()
             file.extract_unit_num_dropoff()
@@ -189,6 +196,8 @@ def main():
             st.markdown(link2, unsafe_allow_html=True)
         
         elif choice == "Use existing template":
+
+            # Page that allows users to use an existing template for file edits #
             st.title("Use existing template")
 
 
@@ -231,6 +240,7 @@ def main():
             excel_filename = str(uploaded_file.name).split('.csv')[0].replace(" ","") + '_processed.xlsx'
             link2= f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64}" download={excel_filename}>Download excel file</a>'
             st.markdown(link2, unsafe_allow_html=True)
+            
     except:
         pass
         
