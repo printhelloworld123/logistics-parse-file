@@ -309,3 +309,67 @@ def prepare_file_ihg_1008_to_1508(df):
                                         "dropoff service time" : 480})
     generate_template(file)
     return file.df_new
+
+
+'''
+- Function to create new templates - 
+
+def name_of_function(df):
+    file = File(df)
+
+    ## Configure this option if client file ##
+    ## combined dropoff and pickup times into 1 col (ie 10am to 1pm) ##
+    ## If pickup and dropoff times are provided in separate columns ##
+    ## this function need not be used ##
+    xxx.duplicate_service_times_all("xxx")  
+   
+    ## Map the name of the columns in client's file to the corresponding names accepted by our template ##
+    ## Ie replace "xxx" with the name of the column in client's file ##
+    ## If the column in the client's file is named properly, comment "xxx" out from the code ##
+    file.rename_columns_general({
+                                        "xxx" : "id",
+                                        "xxx" : "name",
+                                        "xxx" : "dropoff address",
+                                        "xxx" : "dropoff unit number",
+                                        "xxx" : "dropoff postal code",
+                                        "xxx" : "earliest dropoff time",
+                                        "xxx" : "latest dropoff time",
+                                        "xxx" : "pickup address",
+                                        "xxx" : "pickup unit number",
+                                        "xxx" : "pickup postal code",
+                                        "xxx" : "earliest pickup time",
+                                        "xxx" : "latest pickup time",
+                                        "xxx" : "demand type",
+                                        "xxx" : "demand load",
+                                        "xxx" : "remarks",
+                                        "xxx" : "phone number",
+                                        "xxx" : "pickup service time",
+                                        "xxx" : "dropoff service time"
+                                                                        })
+    file.remove_nil_rows()
+
+    ## Configure a fixed value to be applied to all rows in a stated column ##
+    ## If we do not need to apply a fixed value to all rows in a column, comment out the "xxx" from the code ##
+    file.set_row_values_general({
+                                        "id" : "xxx",
+                                        "name" : "xxx",
+                                        "dropoff address" : "xxx",
+                                        "dropoff unit number" : "xxx",
+                                        "dropoff postal code" : "xxx",
+                                        "earliest dropoff time" : "xxx",
+                                        "latest dropoff time" : "xxx",
+                                        "pickup address" : "xxx",
+                                        "pickup unit number" : "xxx",
+                                        "pickup postal code" : "xxx",
+                                        "earliest pickup time" : "xxx",
+                                        "latest pickup time" : "xxx",
+                                        "demand type" : "xxx",
+                                        "demand load" : "xxx",
+                                        "remarks" : "xxx",
+                                        "phone number" : "xxx",
+                                        "pickup service time" : "xxx",
+                                        "dropoff service time" : "xxx"})
+    generate_template(file)
+    return file.df_new
+
+'''
